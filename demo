@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+TAG=${1}
+
+if [ -z "${TAG}" ]; then
+    TAG=$(tr -dc 'a-z' < /dev/urandom | fold -w 32 | head -n 1)
+fi
+
+docker build -t "${TAG}" .
+
+echo "================ DEMO TIME ================"
+echo "[*] Expecting tag: '${TAG}'"
+echo
+docker run --rm -i -v /var/run/docker.sock:/var/run/docker.sock "${TAG}"
+echo
+echo "==========================================="
